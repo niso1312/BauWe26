@@ -50,38 +50,38 @@ function draw() {
   // -------------------
   // PLAYER MOVEMENT (MOUSE)
   // -------------------
+// -------------------
+// PLAYER MOVEMENT (NUR wenn nicht gewonnen)
+// -------------------
 if (stopped) {  // NUR wenn stopped = true
-    if (keys['arrowleft'] || keys['a']) {
-      charPosX -= 10;
-    }
-    if (keys['arrowright'] || keys['d']) {
-      charPosX += 10;
-    }
-    if (keys['arrowup'] || keys['w']) {
-      charPosY -= 10;
-    }
-    if (keys['arrowdown'] || keys['s']) {
-      charPosY += 10;
-    }
-
-    // Grenzen halten
-    charPosX = constrain(charPosX, 0, width - 200);
-    charPosY = constrain(charPosY, 0, height - 250);
+  if (keys['arrowleft'] || keys['a']) {
+    charPosX -= 10;
   }
+  if (keys['arrowright'] || keys['d']) {
+    charPosX += 10;
+  }
+  if (keys['arrowup'] || keys['w']) {
+    charPosY -= 10;
+  }
+  if (keys['arrowdown'] || keys['s']) {
+    charPosY += 10;
+  }
+
+  // Grenzen halten
+  charPosX = constrain(charPosX, 0, width - 200);
+  charPosY = constrain(charPosY, 0, height - 250);
+}
+
+// Bagger bewegt sich IMMER (nicht in der if-Bedingung!)
+bagPosX += bagStep;
+if (bagPosX > width - 350 || bagPosX < 0) {
+  bagStep *= -1;
+}
   // -------------------
   // DRAW OBJECTS
   // -------------------
   image(e, bagPosX, bagPosY, 200, 250);
   image(f, charPosX, charPosY, 200, 250);
-
-  // -------------------
-  // Bagger movement
-  // -------------------
-  bagPosX += bagStep;
-
-  if (bagPosX > width - 350 || bagPosX < 0) {
-    bagStep *= -1;
-  }
 
   // -------------------
   // Vertical auto movement
