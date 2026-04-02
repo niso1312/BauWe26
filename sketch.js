@@ -62,8 +62,8 @@ function draw() {
   }
 
   // Grenzen halten
-  charPosX = constrain(charPosX, 0, width - 200);
-  charPosY = constrain(charPosY, 0, height - 215);
+//  charPosX = constrain(charPosX, 0, width - 200);
+//  charPosY = constrain(charPosY, 0, height - 215);
 
   // -------------------
   // DRAW OBJECTS
