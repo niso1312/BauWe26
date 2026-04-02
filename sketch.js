@@ -39,7 +39,7 @@ function keyReleased() {
   keys[key.toLowerCase()] = false;
 }
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+//  createCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
@@ -148,6 +148,6 @@ function draw() {
 // -------------------
 // RESPONSIVE CANVAS
 // -------------------
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
-}
+//function windowResized() {
+//  resizeCanvas(windowWidth, windowHeight);
+//}
