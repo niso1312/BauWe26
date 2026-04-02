@@ -19,7 +19,7 @@ let Helmshown = false;
 let stopped = true;
 
 function preload() {
-  size(800,800); 
+  
   myImage = loadImage("landscape.jpg");
 
   e = loadImage("bagger.svg");
@@ -39,9 +39,10 @@ function keyPressed() {
 function keyReleased() {
   keys[key.toLowerCase()] = false;
 }
-//function setup() {
+function setup() {
+  size(800,800); 
 //  createCanvas(windowWidth, windowHeight);
-//}
+}
 
 function draw() {
   image(myImage, 0, 0);
