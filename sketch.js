@@ -2,20 +2,21 @@ let e, f, g, h, i;
 let myImage;
 let font;
 
+// Player
+let charPosX = 0;
+let charPosY = 600;
+let charStep = 60;
+
+// Bagger
 let bagPosX = 0;
 let bagPosY = 535;
 let bagStep = 12;
 
-let charPosY = 600;
-let charStep = 60;
-
+// Game state
 let Schaufelshown = false;
 let Biershown = false;
 let Helmshown = false;
-
 let stopped = true;
-
-let charPosX = 0;
 
 function preload() {
   myImage = loadImage("landscape.jpg");
@@ -25,23 +26,51 @@ function preload() {
   g = loadImage("schaufel.svg");
   h = loadImage("helm.svg");
   i = loadImage("bier.svg");
-  font = createFont("PixelifySans-VariableFont_wght.ttf",80);
+
+  font = createFont("PixelifySans-VariableFont_wght.ttf", 80);
 }
 
 function setup() {
-  createCanvas(800, 800);
+  createCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
-  image(myImage, 0, 0, width, height); 
+  image(myImage, 0, 0, width, height);
 
+  // -------------------
+  // PLAYER MOVEMENT (MOUSE)
+  // -------------------
+  if (stopped) {
+    charPosX = constrain(mouseX - 100, 0, width - 200);
+  }
+
+  // -------------------
+  // DRAW OBJECTS
+  // -------------------
   image(e, bagPosX, bagPosY, 200, 250);
   image(f, charPosX, charPosY, 200, 250);
 
-  if (stopped) {
-    charPosX = mouseX;
+  // -------------------
+  // Bagger movement
+  // -------------------
+  bagPosX += bagStep;
+
+  if (bagPosX > width - 350 || bagPosX < 0) {
+    bagStep *= -1;
   }
 
+  // -------------------
+  // Vertical auto movement
+  // -------------------
+  charPosY += charStep;
+
+  if (charPosY > height - 215 || charPosY < 0) {
+    charStep *= -1;
+  }
+
+  // -------------------
+  // Collision bagger vs player
+  // -------------------
   let cute = dist(bagPosX, bagPosY, charPosX, charPosY);
 
   if (cute <= 70) {
@@ -51,43 +80,36 @@ function draw() {
     text("Aua!", 100, 380);
   }
 
-  // Bagger Bewegung
-  if (bagPosX + bagStep < width - 350 && bagPosX + bagStep > 0) {
-    bagPosX += bagStep;
-  } else {
-    bagStep *= -1;
-  }
-
-  // Charakter Bewegung
-  if (charPosY + charStep < height - 215 && charPosY + charStep > 0) {
-    charPosY += charStep;
-  } else {
-    charStep *= -1;
-  }
-
-  // Items anzeigen
+  // -------------------
+  // ITEMS
+  // -------------------
   if (Schaufelshown) {
     image(g, 190, 3, 200, 250);
   }
-  if (charPosY <= 100 && charPosY >= 0 && charPosX >= 160 && charPosX <= 240) {
+
+  if (charPosX > 160 && charPosX < 240 && charPosY < 100) {
     Schaufelshown = true;
   }
 
   if (Biershown) {
     image(i, 450, 130, 150, 250);
   }
-  if (charPosY <= 140 && charPosY >= 0 && charPosX >= 420 && charPosX <= 480) {
+
+  if (charPosX > 420 && charPosX < 480 && charPosY < 140) {
     Biershown = true;
   }
 
   if (Helmshown) {
     image(h, 200, 250, 240, 300);
   }
-  if (charPosY <= 325 && charPosY >= 80 && charPosX >= 200 && charPosX <= 280) {
+
+  if (charPosX > 200 && charPosX < 280 && charPosY > 80 && charPosY < 325) {
     Helmshown = true;
   }
 
-  // Win condition
+  // -------------------
+  // WIN CONDITION
+  // -------------------
   let end = dist(620, 420, charPosX, charPosY);
 
   if (end <= 50) {
@@ -100,4 +122,11 @@ function draw() {
     textSize(80);
     text("Juhu, geschafft!", 100, 350);
   }
+}
+
+// -------------------
+// RESPONSIVE CANVAS
+// -------------------
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
 }
