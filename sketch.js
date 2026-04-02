@@ -33,9 +33,7 @@ function setup() {
 }
 
 function draw() {
-  image(myImage, 0, 0, width, height);
-
-  text(mouseX, 20, 20); 
+  image(myImage, 0, 0, width, height); 
 
   image(e, bagPosX, bagPosY, 200, 250);
   image(f, charPosX, charPosY, 200, 250);
