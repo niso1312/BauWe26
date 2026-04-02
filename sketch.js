@@ -19,6 +19,7 @@ let Helmshown = false;
 let stopped = true;
 
 function preload() {
+  size(800,800); 
   myImage = loadImage("landscape.jpg");
 
   e = loadImage("bagger.svg");
@@ -43,7 +44,7 @@ function setup() {
 }
 
 function draw() {
-  image(myImage, 0, 0, width, height);
+  image(myImage, 0, 0);
 
   // -------------------
   // PLAYER MOVEMENT (MOUSE)
