@@ -1,27 +1,24 @@
-// -------------------
-// POSITIONS
-// -------------------
-let charPosX = 300;
-let charPosY = 600;
-
-let bagPosX = 0;
-let bagPosY = 535;
-
-let bagStep = 12;
-
-// Game state
-let Schaufelshown = false;
-let Biershown = false;
-let Helmshown = false;
-let gameWon = false;
-
-// -------------------
-// IMAGES / FONT
-// -------------------
 let e, f, g, h, i;
 let myImage;
 let font;
 
+let bagPosX = 0;
+let bagPosY = 535;
+let bagStep = 12;
+
+let charPosX = 300;
+let charPosY = 600;
+let charStep = 60;
+
+let Schaufelshown = false;
+let Biershown = false;
+let Helmshown = false;
+
+let stopped = true;
+
+// -------------------
+// PRELOAD
+// -------------------
 function preload() {
   myImage = loadImage("landscape.jpg");
 
@@ -31,11 +28,18 @@ function preload() {
   h = loadImage("helm.svg");
   i = loadImage("bier.svg");
 
-  font = createFont("PixelifySans-VariableFont_wght.ttf", 80);
+  font = loadFont("PixelifySans-VariableFont_wght.ttf");
 }
 
 // -------------------
-// INPUT
+// SETUP
+// -------------------
+function setup() {
+  createCanvas(800, 800);
+}
+
+// -------------------
+// INPUT (PFEILTASTEN)
 // -------------------
 let keys = {};
 
@@ -48,36 +52,31 @@ function keyReleased() {
 }
 
 // -------------------
-// SETUP
-// -------------------
-function setup() {
-  createCanvas(800, 800);
-}
-
-// -------------------
 // DRAW
 // -------------------
 function draw() {
   image(myImage, 0, 0, width, height);
 
   // -------------------
-  // PLAYER MOVEMENT (IMMER erlaubt)
+  // CHARACTER MOVEMENT (PFEILTASTEN)
   // -------------------
-  if (!gameWon) {
-    if (keys['arrowleft'] || keys['a']) charPosX -= 10;
-    if (keys['arrowright'] || keys['d']) charPosX += 10;
-    if (keys['arrowup'] || keys['w']) charPosY -= 10;
-    if (keys['arrowdown'] || keys['s']) charPosY += 10;
-
-    charPosX = constrain(charPosX, 0, width - 200);
-    charPosY = constrain(charPosY, 0, height - 250);
+  if (stopped) {
+    if (keys["arrowleft"] || keys["a"]) charPosX -= 6;
+    if (keys["arrowright"] || keys["d"]) charPosX += 6;
+    if (keys["arrowup"] || keys["w"]) charPosY -= 6;
+    if (keys["arrowdown"] || keys["s"]) charPosY += 6;
   }
 
+  // Grenzen
+  charPosX = constrain(charPosX, 0, width - 200);
+  charPosY = constrain(charPosY, 0, height - 250);
+
   // -------------------
-  // BAGGER MOVEMENT (IMMER unabhängig!)
+  // BAGGER MOVEMENT
   // -------------------
-  bagPosX += bagStep;
-  if (bagPosX > width - 350 || bagPosX < 0) {
+  if (bagPosX + bagStep < width - 350 && bagPosX + bagStep > 0) {
+    bagPosX += bagStep;
+  } else {
     bagStep *= -1;
   }
 
@@ -88,17 +87,11 @@ function draw() {
   image(f, charPosX, charPosY, 200, 250);
 
   // -------------------
-  // COLLISION (nur Feedback, KEIN STOP)
+  // COLLISION
   // -------------------
-  let charCenterX = charPosX + 100;
-  let charCenterY = charPosY + 125;
+  let cute = dist(bagPosX, bagPosY, charPosX, charPosY);
 
-  let bagCenterX = bagPosX + 100;
-  let bagCenterY = bagPosY + 125;
-
-  let d = dist(charCenterX, charCenterY, bagCenterX, bagCenterY);
-
-  if (d <= 90) {
+  if (cute <= 70) {
     fill(255);
     textFont(font);
     textSize(80);
@@ -112,17 +105,26 @@ function draw() {
   if (Biershown) image(i, 450, 130, 150, 250);
   if (Helmshown) image(h, 200, 250, 240, 300);
 
-  if (charPosX > 160 && charPosX < 240 && charPosY < 100) Schaufelshown = true;
-  if (charPosX > 420 && charPosX < 480 && charPosY < 140) Biershown = true;
-  if (charPosX > 200 && charPosX < 280 && charPosY > 80 && charPosY < 325) Helmshown = true;
+  if (charPosY <= 100 && charPosX >= 160 && charPosX <= 240) {
+    Schaufelshown = true;
+  }
+
+  if (charPosY <= 140 && charPosX >= 420 && charPosX <= 480) {
+    Biershown = true;
+  }
+
+  if (charPosY <= 325 && charPosY >= 80 && charPosX >= 200 && charPosX <= 280) {
+    Helmshown = true;
+  }
 
   // -------------------
-  // WIN CONDITION (keine Movement-Manipulation!)
+  // WIN CONDITION
   // -------------------
-  let end = dist(620, 420, charCenterX, charCenterY);
+  let end = dist(620, 420, charPosX, charPosY);
 
   if (end <= 50) {
-    gameWon = true;
+    stopped = false;
+    charPosX = 620;
 
     fill(255);
     textFont(font);
