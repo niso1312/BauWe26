@@ -40,33 +40,34 @@ function keyReleased() {
   keys[key.toLowerCase()] = false;
 }
 function setup() {
-  size(800,800); 
+  createCanvas(800,800); 
 //  createCanvas(windowWidth, windowHeight);
 }
 
 function draw() {
-  image(myImage, 0, 0);
+  image(myImage, 0, 0, width, height);
 
   // -------------------
   // PLAYER MOVEMENT (MOUSE)
   // -------------------
- if (keys['arrowleft'] || keys['a']) {
-    charPosX -= 10;
-  }
-  if (keys['arrowright'] || keys['d']) {
-    charPosX += 10;
-  }
-  if (keys['arrowup'] || keys['w']) {
-    charPosY -= 10;
-  }
-  if (keys['arrowdown'] || keys['s']) {
-    charPosY += 10;
-  }
+if (stopped) {  // NUR wenn stopped = true
+    if (keys['arrowleft'] || keys['a']) {
+      charPosX -= 10;
+    }
+    if (keys['arrowright'] || keys['d']) {
+      charPosX += 10;
+    }
+    if (keys['arrowup'] || keys['w']) {
+      charPosY -= 10;
+    }
+    if (keys['arrowdown'] || keys['s']) {
+      charPosY += 10;
+    }
 
-  // Grenzen halten
-//  charPosX = constrain(charPosX, 0, width - 200);
-//  charPosY = constrain(charPosY, 0, height - 215);
-
+    // Grenzen halten
+    charPosX = constrain(charPosX, 0, width - 200);
+    charPosY = constrain(charPosY, 0, height - 250);
+  }
   // -------------------
   // DRAW OBJECTS
   // -------------------
@@ -130,13 +131,13 @@ function draw() {
     Helmshown = true;
   }
 
-  // -------------------
+   // -------------------
   // WIN CONDITION
   // -------------------
   let end = dist(620, 420, charPosX, charPosY);
 
   if (end <= 50) {
-    stopped = false;
+    stopped = false;  // Bewegung sperren!
     charStep = 0;
     charPosX = 620;
 
