@@ -29,7 +29,15 @@ function preload() {
 
   font = createFont("PixelifySans-VariableFont_wght.ttf", 80);
 }
+let keys = {};
 
+function keyPressed() {
+  keys[key.toLowerCase()] = true;
+}
+
+function keyReleased() {
+  keys[key.toLowerCase()] = false;
+}
 function setup() {
   createCanvas(windowWidth, windowHeight);
 }
@@ -40,9 +48,22 @@ function draw() {
   // -------------------
   // PLAYER MOVEMENT (MOUSE)
   // -------------------
-  if (stopped) {
-    charPosX = constrain(mouseX - 100, 0, width - 200);
+ if (keys['arrowleft'] || keys['a']) {
+    charPosX -= 10;
   }
+  if (keys['arrowright'] || keys['d']) {
+    charPosX += 10;
+  }
+  if (keys['arrowup'] || keys['w']) {
+    charPosY -= 10;
+  }
+  if (keys['arrowdown'] || keys['s']) {
+    charPosY += 10;
+  }
+
+  // Grenzen halten
+  charPosX = constrain(charPosX, 0, width - 200);
+  charPosY = constrain(charPosY, 0, height - 215);
 
   // -------------------
   // DRAW OBJECTS
@@ -62,11 +83,11 @@ function draw() {
   // -------------------
   // Vertical auto movement
   // -------------------
-  charPosY += charStep;
+ // charPosY += charStep;
 
-  if (charPosY > height - 215 || charPosY < 0) {
-    charStep *= -1;
-  }
+ // if (charPosY > height - 215 || charPosY < 0) {
+ //   charStep *= -1;
+ // }
 
   // -------------------
   // Collision bagger vs player
