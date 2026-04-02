@@ -3,7 +3,7 @@ let myImage;
 let font;
 
 // Player
-let charPosX = 0;
+let charPosX = 300;
 let charPosY = 600;
 let charStep = 60;
 
@@ -16,6 +16,7 @@ let bagStep = 12;
 let Schaufelshown = false;
 let Biershown = false;
 let Helmshown = false;
+let stopped = true;
 
 function preload() {
   
@@ -45,7 +46,7 @@ function setup() {
 
 function draw() {
   image(myImage, 0, 0, width, height);
-  let stopped = true;
+
   // -------------------
   // PLAYER MOVEMENT (MOUSE)
   // -------------------
