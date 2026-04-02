@@ -16,7 +16,6 @@ let bagStep = 12;
 let Schaufelshown = false;
 let Biershown = false;
 let Helmshown = false;
-let stopped = true;
 
 function preload() {
   
@@ -46,7 +45,7 @@ function setup() {
 
 function draw() {
   image(myImage, 0, 0, width, height);
-
+  let stopped = true;
   // -------------------
   // PLAYER MOVEMENT (MOUSE)
   // -------------------
