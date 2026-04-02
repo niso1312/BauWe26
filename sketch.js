@@ -39,9 +39,9 @@ function keyPressed() {
 function keyReleased() {
   keys[key.toLowerCase()] = false;
 }
-function setup() {
+//function setup() {
 //  createCanvas(windowWidth, windowHeight);
-}
+//}
 
 function draw() {
   image(myImage, 0, 0);
